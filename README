@@ -1,0 +1,44 @@
+
+
+1.
+
+
+Unit test u
+
+
+
+TODO:
+
+1) Additional /backup/ service, 
+which gathers fx rates, currently using only 1, 
+and if for some reason it is down, the app will not work, because
+it relies on it for rates.
+
+
+
+This is our concurrency strategy
+
+# Idempotency strategy is using Pessimistic row locking.
+
+It means that when a conversion starts, the service will later execute the following:
+balanceRepository.findAllByClientIdForUpdate(client.getId());
+
+The database will lock that client's balance rows until the transaction finishes.
+
+
+Therefore
+cannot accidentally be spent twice by two simultaneous transactions.
+
+This is particularly suitable for this assignment because it gives us a simple and very clear transactional guarantee.
+
+
+
+2) GET /conversions?transactionId=…&date=YYYY-MM-DD&clientId=…&page=…&size=… →
+paginated history filtered by transactionId, date, or clientId (at least one filter must be
+provided).
+
+
+3) Dockerfile
+
+4) Integration tests
+
