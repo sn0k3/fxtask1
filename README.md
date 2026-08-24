@@ -36,12 +36,14 @@ http://localhost:8080
 
 Flyway inserts two clients:
 
- Client      Currency  Starting balance 
- CLIENT-001  USD            10,000.0000 
- CLIENT-001  EUR             8,000.0000
- CLIENT-002  GBP             5,000.0000
 
-
+```
+| Client     | Currency | Starting balance |
+| ---------- | -------- | ---------------: |
+| CLIENT-001 | USD      |      10,000.0000 |
+| CLIENT-001 | EUR      |       8,000.0000 |
+| CLIENT-002 | GBP      |       5,000.0000 |
+```
 ## API endpoints
 
 ### Current exchange rate
@@ -70,8 +72,6 @@ Request:
   "targetCurrency": "EUR"
 }
 ```
-
-The source balance is debited and the target balance is credited in the same database transaction.
 
 The response contains the transaction ID, amounts, rate, timestamp, and the client's balances after the conversion.
 
@@ -158,7 +158,7 @@ Currency Ammount is stored as PostgreSQL `NUMERIC` and mapped to Java `BigDecima
 
 
 ## Tests
-Only two unit tests are implemented.
+Only two unit/integration tests are implemented.
 
 
 
