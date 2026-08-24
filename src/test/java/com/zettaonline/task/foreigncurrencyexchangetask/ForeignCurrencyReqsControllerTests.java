@@ -8,19 +8,19 @@ import com.zettaonline.task.foreigncurrencyexchangetask.controllers.ForeignCurre
 
 public class ForeignCurrencyReqsControllerTests {
 
-	/*
+	
 	@Test
 	public void testForInvalidCurrencyParameterInFromField() {
 		ForeignCurrencyReqsController fcqc = new ForeignCurrencyReqsController();
 		
-		assertEquals("Error, invalid parameter in \"from\" field!", fcqc.getCurrentRate("YUR", "BGN"));
+		assertEquals("Error, invalid parameter in \"from\" field!", fcqc.getCurrentRates("YUR", "BGN"));
 	}
 	
 	@Test
 	public void testForInvalidCurrencyParameterInToCurrencyField() {
 		ForeignCurrencyReqsController fcqc = new ForeignCurrencyReqsController();
 		
-		assertEquals("Error, invalid parameter in \"to\" field!", fcqc.getCurrentRate("USD", "YUR"));		
-	}*/
+		assertEquals("Error, invalid parameter in \"to\" field!", fcqc.getCurrentRates("USD", "YUR"));		
+	}
 	
 }

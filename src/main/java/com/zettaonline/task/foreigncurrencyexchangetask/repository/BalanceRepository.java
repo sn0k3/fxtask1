@@ -13,27 +13,28 @@ import java.util.Optional;
 
 public interface BalanceRepository extends JpaRepository<Balance, Long> {
 
-    Optional<Balance> findByClient_IdAndCurrency(
-        Long clientId,
-        String currency
-    );
+	Optional<Balance> findByClient_IdAndCurrency(Long clientId, String currency);
 
-    /**
-     * Locks all balances belonging to a client.
-     *
-     * PESSIMISTIC_WRITE prevents another conversion for the same
-     * client from modifying the balances concurrently.
-     */
-    @Lock(LockModeType.PESSIMISTIC_WRITE)
-    @Query("""
-        SELECT b
-        FROM Balance b
-        WHERE b.client.id = :clientId
-        ORDER BY b.currency ASC
-        """)
-    List<Balance> findAllByClientIdForUpdate(
-        @Param("clientId") Long clientId
-    );
-    
-    List<Balance> findAllByClient_ClientIdOrderByCurrencyAsc(String clientId);
+	/**
+	 * Locks all balances belonging to a client.
+	 *
+	 * PESSIMISTIC_WRITE prevents another conversion for the same client from
+	 * modifying the balances concurrently.
+	 */
+	@Lock(LockModeType.PESSIMISTIC_WRITE)
+	@Query("""
+			SELECT b
+			FROM Balance b
+			WHERE b.client.id = :clientId
+			ORDER BY b.currency ASC
+			""")
+	List<Balance> findAllByClientIdForUpdate(@Param("clientId") Long clientId);
+
+	@Query("""
+			SELECT b
+			FROM Balance b
+			WHERE b.client.id = :clientId
+			ORDER BY b.currency ASC
+			""")
+	List<Balance> findAllByClientIdOrderByCurrency(@Param("clientId") Long clientId);
 }

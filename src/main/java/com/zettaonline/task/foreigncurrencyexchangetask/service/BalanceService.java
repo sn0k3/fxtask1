@@ -4,6 +4,7 @@ import com.zettaonline.task.foreigncurrencyexchangetask.entities.Balance;
 import com.zettaonline.task.foreigncurrencyexchangetask.entities.Client;
 import com.zettaonline.task.foreigncurrencyexchangetask.repository.BalanceRepository;
 import com.zettaonline.task.foreigncurrencyexchangetask.repository.ClientRepository;
+import com.zettaonline.task.foreigncurrencyexchangetask.utils.exceptions.ClientNotFoundException;
 import com.zettaonline.task.foreigncurrencyexchangetask.utils.pojos.BalanceResponse;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,17 +21,24 @@ public class BalanceService {
 		this.clientRepository = clientRepository;
 		this.balanceRepository = balanceRepository;
 	}
-
+	
 	@Transactional(readOnly = true)
 	public List<BalanceResponse> getBalances(String clientId) {
 
-		Client client = clientRepository.findByClientIdentification(clientId).orElseThrow(() -> new com.zettaonline.task.foreigncurrencyexchangetask.utils.exceptions.ClientNotFoundException(
-						clientId));
+	    Client client = clientRepository
+	        .findByClientIdentification(clientId)
+	        .orElseThrow(() -> new ClientNotFoundException(clientId));
 
-		List<Balance> balances = balanceRepository
-				.findAllByClient_ClientIdOrderByCurrencyAsc(client.getClientIdentification());
+	    List<Balance> balances =
+	        balanceRepository.findAllByClientIdOrderByCurrency(
+	            client.getId()
+	        );
 
-		return balances.stream().map(balance -> new BalanceResponse(balance.getCurrency(), balance.getAmount()))
-				.toList();
+	    return balances.stream()
+	        .map(balance -> new BalanceResponse(
+	            balance.getCurrency(),
+	            balance.getAmount()
+	        ))
+	        .toList();
 	}
 }

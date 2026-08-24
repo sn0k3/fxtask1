@@ -57,7 +57,6 @@ public class ForeignCurrencyReqsController {
 		String result;
 		Utils utilsIns = new Utils();
 		
-		System.out.println("from=" + fromCurrency + " to=" + toCurrency);
 		
 		String rawResult = utilsIns.createExternalGETRequestToSpecificURL(Utils.FX_RATE_PROVIDER_FRANKFURTER_URL + "?from=" + fromCurrency);
 		if(rawResult == null) {
@@ -103,13 +102,9 @@ public class ForeignCurrencyReqsController {
 	}
 	
 	
-	 @GetMapping("/{clientId}/balances")
-	    public ResponseEntity<List<BalanceResponse>> getBalances(
-	        @PathVariable String clientId
-	    ) {
-	        return ResponseEntity.ok(
-	            balanceService.getBalances(clientId)
-	        );
-	    }
+	@GetMapping("/clients/{clientId}/balances")
+	public ResponseEntity<List<BalanceResponse>> getBalances(@PathVariable String clientId) {
+		return ResponseEntity.ok(balanceService.getBalances(clientId));
+	}
 	
 }
